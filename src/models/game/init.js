@@ -23,7 +23,6 @@ const {pick, unpick, put, __: repick} = split(stream, {
     const isEmpty = columns[selected].length === 0
     const isFree = columns[selected].length < config.levels
     const canPut = columns[selected][columns[selected].length - 1] === pickedBall?.color
-    console.log(pickedAndSelectedOtherColumn, isEmpty, isFree, canPut, isEmpty || (pickedAndSelectedOtherColumn && isFree && canPut))
     return pickedAndSelectedOtherColumn && (isEmpty || (isFree && canPut))
   },
 })

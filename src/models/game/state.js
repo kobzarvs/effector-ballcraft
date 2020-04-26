@@ -55,3 +55,5 @@ export const $noPicked = $pickedBall.map(val => !val)
  */
 export const $history = createStore([])
 export const $historyPos = createStore(0)
+
+window.$columns = $columns

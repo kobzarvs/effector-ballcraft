@@ -1,5 +1,25 @@
+:root {
+  --ball-color-0: red;
+  --ball-color-1: darkgreen;
+  --ball-color-2: blue;
+  --ball-color-3: orange;
+  --ball-color-4: cyan;
+  --ball-color-5: pink;
+  --ball-color-6: lime;
+  --ball-color-7: lightblue;
+  --ball-color-8: brown;
+  --ball-color-9: yellow;
+  --ball-color-10: gray;
+  --ball-color-11: purple;
+}
+
 .App {
   text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .App-logo {
@@ -35,4 +55,44 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.column {
+  border: 1px solid gray;
+  padding: 2px;
+  border-radius: 3px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: rgba(0, 0, 0, .1);
+  cursor: pointer;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  height: calc(30px * 4 + 40px);
+}
+
+.ball {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1px;
+  cursor: pointer;
+  flex: 0 0 30px;
+}
+
+.game-field {
+  display: grid;
+  grid-template-columns: repeat(7, 40px);
+  grid-gap: 10px;
+  padding: 40px 20px 20px 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
 }

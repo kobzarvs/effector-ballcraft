@@ -17,9 +17,11 @@
   text-align: center;
   display: flex;
   flex-flow: column;
-  justify-content: center;
   align-items: center;
   height: 100vh;
+  padding-top: 50px;
+  width: 340px;
+  margin: auto;
 }
 
 .App-logo {
@@ -89,10 +91,36 @@
   display: grid;
   grid-template-columns: repeat(7, 40px);
   grid-gap: 10px;
-  padding: 40px 20px 20px 20px;
+  padding: 20px;
+  width: 340px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  width: 340px;
 }
 
 .btn {
-  padding: 10px 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-left: 5px;
+  background-color: transparent;
+  color: #cccccc;
+  cursor: pointer;
+}
+
+.btn:first-child {
+  margin-left: 0;
+}
+
+label {
+  color: #ccc;
+}
+
+#state {
   font-size: 16px;
+  width: 100%;
+  flex: 0 0 80px;
+  margin: 5px 0;
 }

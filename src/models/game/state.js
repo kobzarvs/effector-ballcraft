@@ -32,7 +32,7 @@ export const $columns = $gameConfig.map(config => {
     }, [])
   const columns = Array.from(Array(cols)).map(() => [])
   columns.forEach(col => {
-    for(let lvl = 0; lvl < levels; ++lvl) {
+    for (let lvl = 0; lvl < levels; ++lvl) {
       const color = colors.pop()
       if (typeof color !== 'undefined') {
         col.push(color)
@@ -42,18 +42,20 @@ export const $columns = $gameConfig.map(config => {
   return columns
 })
 
-// {
-//  from: column number,
-//  color: ball color
-// }
 export const $pickedBall = createStore(null)
 export const $noPicked = $pickedBall.map(val => !val)
 
-/**
- * undo history
- * [{from, to}, ...]
- */
+export const $historyPos = createStore(-1)
 export const $history = createStore([])
-export const $historyPos = createStore(0)
 
-window.$columns = $columns
+export const $currentHistory = combine(
+  [$history, $historyPos],
+  ([h, p]) => h[p] || null,
+)
+
+export const $canRedo = combine(
+  [$history, $historyPos],
+  ([h, p, t]) => p < h.length - 1,
+)
+
+export const $selectedColumn = createStore([])

@@ -21,8 +21,9 @@ const palette = [
   'purple',
 ]
 
-const Ball = ({colorIndex}) => (
+const Ball = ({colorIndex, onMouseDown}) => (
   <div className="ball"
+       onMouseDown={onMouseDown}
        style={{
          backgroundColor: colorIndex === -1 ? 'transparent' : palette[colorIndex],
          border: colorIndex === -1 ? '1px solid transparent' : '1px solid white',
@@ -78,9 +79,23 @@ function App() {
       <div className="game-field">
         {columns.map((column, idx) => (
           <div key={idx}>
-            <Ball colorIndex={from === idx ? color : -1} />
+            <Ball colorIndex={from === idx ? color : -1}
+                  onMouseDown={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    selectColumn(idx)
+                  }}
+            />
             <div className="column"
-                 onMouseDown={() => selectColumn(idx)}
+                 onTouchStart={(e) => {
+                   e.preventDefault()
+                   e.stopPropagation()
+                 }}
+                 onMouseDown={(e) => {
+                   e.preventDefault()
+                   e.stopPropagation()
+                   selectColumn(idx)
+                 }}
             >
               {column.map((_, idx) => (
                 <Ball key={idx} colorIndex={column[column.length - idx - 1]} />

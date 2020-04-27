@@ -1,102 +1,100 @@
 :root {
-  --width: 300px;
-  --ball-size: 26px;
-  --ball-gap: 1px;
-  touch-action: pan-x pan-y;
-  height: 100%
+    --width: 300px;
+    --ball-size: 26px;
+    --ball-gap: 1px;
 }
 
 .App {
-  text-align: center;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  height: 100vh;
-  padding: 10px 0 20vh 0;
-  width: var(--width);
-  margin: auto;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 100vh;
+    padding: 10px 0 120vh 0;
+    width: var(--width);
+    margin: auto;
 }
 
 .column {
-  border: 1px solid gray;
-  padding: 2px;
-  border-radius: 3px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  background-color: rgba(0, 0, 0, .1);
-  cursor: pointer;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-end;
-  align-items: flex-start;
-  height: calc((var(--ball-size) + var(--ball-gap) + 2px) * 4 + var(--ball-size));
+    border: 1px solid gray;
+    padding: 2px;
+    border-radius: 3px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: rgba(0, 0, 0, .15);
+    cursor: pointer;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+    height: calc((var(--ball-size) + var(--ball-gap) + 2px) * 4 + var(--ball-size));
 }
 
 .ball {
-  border-radius: 100%;
-  border: 1px solid white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: var(--ball-gap);
-  cursor: pointer;
-  flex: 0 0 var(--ball-size);
-  height: var(--ball-size);
-  width: var(--ball-size);
+    border-radius: 100%;
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--ball-gap);
+    cursor: pointer;
+    flex: 0 0 var(--ball-size);
+    height: var(--ball-size);
+    width: var(--ball-size);
 }
 
 .game-field {
-  display: grid;
-  grid-template-columns: repeat(7, calc(var(--ball-size) + 10px));
-  grid-gap: 6px;
-  padding: 10px;
-  width: var(--width);
-  margin: 0 0 20px 0;
+    display: grid;
+    grid-template-columns: repeat(7, calc(var(--ball-size) + 10px));
+    grid-gap: 6px;
+    padding: 10px;
+    width: var(--width);
+    margin: 0 0 20px 0;
 }
 
 .actions {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  flex: 0 0 36px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex: 0 0 36px;
 }
 
 .btn {
-  height: 36px;
-  padding: 5px 10px;
-  font-size: 16px;
-  margin-left: 5px;
-  background-color: transparent;
-  color: #cccccc;
-  cursor: pointer;
+    height: 36px;
+    padding: 5px 10px;
+    font-size: 16px;
+    margin-left: 5px;
+    background-color: transparent;
+    color: #cccccc;
+    cursor: pointer;
 }
 
 .btn:first-child {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 textarea {
-  font-size: 16px;
-  width: 100%;
-  flex: 0 0 80px;
+    font-size: 16px;
+    width: 100%;
+    flex: 0 0 80px;
 }
 
 .error {
-  color: red;
-  margin: 2px 0 2px 0;
+    color: red;
+    margin: 2px 0 2px 0;
 }
 
 .label {
-  align-self: flex-start;
-  color: #ccc;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  cursor: pointer;
+    align-self: flex-start;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
 }
 
 .label > input[type=checkbox] {
-  margin: 6px;
-  width: 18px;
-  height: 18px;
+    margin: 6px;
+    width: 18px;
+    height: 18px;
 }

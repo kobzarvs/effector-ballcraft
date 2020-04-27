@@ -7,9 +7,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #282c34;
   font-size: 16px;
+  color: white;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+* {
+  -ms-touch-action: pinch-zoom pan-y;
+  touch-action: pinch-zoom pan-y;
 }

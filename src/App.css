@@ -50,6 +50,7 @@
     padding: 10px;
     width: var(--width);
     margin: 0 0 20px 0;
+    user-select: none;
 }
 
 .actions {
@@ -57,9 +58,11 @@
     justify-content: space-between;
     width: 100%;
     flex: 0 0 36px;
+    user-select: none;
 }
 
 .btn {
+    user-select: none;
     height: 36px;
     padding: 5px 10px;
     font-size: 16px;

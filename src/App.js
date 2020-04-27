@@ -31,6 +31,13 @@ const Ball = ({colorIndex, onMouseDown}) => (
   />
 )
 
+let touch = false
+const ignore = e => {
+  e.preventDefault()
+  e.stopPropagation()
+  touch = true
+}
+
 function App() {
   const columns = useStore($columns)
   const pickedBall = useStore($pickedBall)
@@ -68,35 +75,32 @@ function App() {
   const handleCheck = e => setWithHistory(e.target.checked)
 
   return (
-    <div className="App">
+    <div className="App" onTouchStart={ignore}>
       <div className="actions" style={{justifyContent: 'space-between'}}>
         <button className="btn" onClick={newGame}>New Game</button>
         <div>
-          <button className="btn" onClick={undo}>Undo</button>
-          <button className="btn" onClick={redo}>Redo</button>
+          <button className="btn" onClick={undo} onTouchStart={ignore}>Undo</button>
+          <button className="btn" onClick={redo} onTouchStart={ignore}>Redo</button>
         </div>
       </div>
-      <div className="game-field">
+
+      <div className="game-field" onTouchStart={ignore}>
         {columns.map((column, idx) => (
-          <div key={idx}>
-            <Ball colorIndex={from === idx ? color : -1}
-                  onMouseDown={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    selectColumn(idx)
-                  }}
-            />
-            <div className="column"
-                 onTouchStart={(e) => {
-                   e.preventDefault()
-                   e.stopPropagation()
-                 }}
-                 onMouseDown={(e) => {
-                   e.preventDefault()
-                   e.stopPropagation()
-                   selectColumn(idx)
-                 }}
-            >
+          <div key={idx}
+               onTouchStart={(e) => {
+                 e.preventDefault()
+                 e.stopPropagation()
+                 touch = true
+                 selectColumn(idx)
+               }}
+               onMouseDown={(e) => {
+                 e.preventDefault()
+                 e.stopPropagation()
+                 !touch && selectColumn(idx)
+               }}
+          >
+            <Ball colorIndex={from === idx ? color : -1} />
+            <div className="column">
               {column.map((_, idx) => (
                 <Ball key={idx} colorIndex={column[column.length - idx - 1]} />
               ))}
@@ -104,6 +108,7 @@ function App() {
           </div>
         ))}
       </div>
+
       <div style={{width: '100%'}}>
         <label className="label">
           <input type="checkbox"
@@ -113,12 +118,14 @@ function App() {
           State includes history
         </label>
       </div>
+
       <textarea id="state"
                 ref={ref}
                 value={state}
                 onChange={e => setState(e.target.value)}
       />
       {error && <div className="error">{error}</div>}
+
       <div className="actions" style={{marginTop: 5}}>
         <button className="btn" onClick={copy}>Copy to clipboard</button>
         <button className="btn" onClick={apply}>Apply</button>

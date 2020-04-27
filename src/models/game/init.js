@@ -61,12 +61,18 @@ sample({
 })
 
 $pickedBall
-  .reset(unpick, put)
   .on(pick, (_, {selected, columns}) => ({
     from: selected,
     color: columns[selected][columns[selected].length - 1],
   }))
   .on(paste, (_, data) => data.pickedBall)
+
+sample({
+  source: merge([unpick, put]),
+  fn: () => null,
+  target: $pickedBall,
+})
+
 
 // save selected column
 sample({

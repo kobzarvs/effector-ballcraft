@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import './App.css'
 import {$columns, $pickedBall} from './models/game/state'
 import {useStore} from 'effector-react'
-import {newGame, redo, selectColumn, save, load, undo} from './models/game'
+import {newGame, redo, selectColumn, undo} from './models/game'
 
 
 const palette = [

@@ -1,4 +1,4 @@
-import {createStore, combine} from 'effector'
+import {combine, createStore} from 'effector'
 
 
 export const COLS = 14
@@ -44,18 +44,5 @@ export const $columns = $gameConfig.map(config => {
 
 export const $pickedBall = createStore(null)
 export const $noPicked = $pickedBall.map(val => !val)
-
-export const $historyPos = createStore(-1)
-export const $history = createStore([])
-
-export const $currentHistory = combine(
-  [$history, $historyPos],
-  ([h, p]) => h[p] || null,
-)
-
-export const $canRedo = combine(
-  [$history, $historyPos],
-  ([h, p, t]) => p < h.length - 1,
-)
 
 export const $selectedColumn = createStore([])

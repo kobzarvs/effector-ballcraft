@@ -79,7 +79,9 @@ function App() {
         {columns.map((column, idx) => (
           <div key={idx}>
             <Ball colorIndex={from === idx ? color : -1} />
-            <div className="column" onClick={() => selectColumn(idx)}>
+            <div className="column"
+                 onMouseDown={() => selectColumn(idx)}
+            >
               {column.map((_, idx) => (
                 <Ball key={idx} colorIndex={column[column.length - idx - 1]} />
               ))}

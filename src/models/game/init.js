@@ -13,7 +13,7 @@ const stream = sample({
   fn: (stores, selected) => ({...stores, selected}),
 })
 
-export const {pick, unpick, put, repick} = split(stream, {
+export const {pick, unpick, put} = split(stream, {
   pick: ({columns, selected, noPicked}) => {
     const isEmpty = columns[selected].length === 0
     return noPicked && !isEmpty
@@ -26,14 +26,14 @@ export const {pick, unpick, put, repick} = split(stream, {
     const canPut = columns[selected][columns[selected].length - 1] === pickedBall?.color
     return pickedAndSelectedOtherColumn && (isEmpty || (isFree && canPut))
   },
-  repick: ({pickedBall}) => !!pickedBall,
+  // repick: ({pickedBall}) => !!pickedBall,
 })
 
-repick.watch(({pickedBall, selected}) => {
-  if (!pickedBall) return
-  selectColumn(pickedBall.from)
-  selectColumn(selected)
-})
+// repick.watch(({pickedBall, selected}) => {
+//   if (!pickedBall) return
+//   selectColumn(pickedBall.from)
+//   selectColumn(selected)
+// })
 
 $columns
   .on(pick, (cols, {selected}) =>

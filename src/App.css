@@ -2,6 +2,8 @@
   --width: 300px;
   --ball-size: 26px;
   --ball-gap: 1px;
+  touch-action: pan-x pan-y;
+  height: 100%
 }
 
 .App {

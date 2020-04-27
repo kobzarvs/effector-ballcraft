@@ -5,8 +5,8 @@ import {updateCol} from './helpers'
 import {put} from './init'
 
 
-export const $historyPos = createStore(-1).reset(merge([newGame, paste]))
-export const $history = createStore([]).reset(merge([newGame, paste]))
+export const $historyPos = createStore(-1).reset(newGame)
+export const $history = createStore([]).reset(newGame)
 export const $currentHistory = combine(
   [$history, $historyPos],
   ([h, p]) => h[p] || null,
@@ -68,12 +68,15 @@ sample({
   target: $columns,
 })
 
+$history.on(paste, (_, data) => data.history)
+
 
 // history cursor
 $historyPos
   .on(put, (pos) => pos + 1)
   .on(safeUndo, (pos) => pos - 1)
   .on(safeRedo, (pos) => pos + 1)
+  .on(paste, (_, data) => data.historyPos || -1)
 
 // append history record
 sample({

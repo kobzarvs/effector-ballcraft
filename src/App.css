@@ -49,6 +49,7 @@
   display: flex;
   justify-content: space-between;
   width: 340px;
+  margin: 5px 0;
 }
 
 .btn {
@@ -72,10 +73,10 @@ label {
   font-size: 16px;
   width: 100%;
   flex: 0 0 80px;
-  margin: 5px 0;
+  margin: 5px 0 0 0;
 }
 
 .error {
   color: red;
-  margin: 2px 0 10px 0;
+  margin: 2px 0 2px 0;
 }

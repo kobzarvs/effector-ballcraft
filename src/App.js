@@ -3,6 +3,7 @@ import './App.css'
 import {$columns, $pickedBall} from './models/game/state'
 import {useStore} from 'effector-react'
 import {newGame, paste, redo, selectColumn, undo} from './models/game'
+import {$history, $historyPos} from './models/game/undo'
 
 
 const palette = [
@@ -35,12 +36,18 @@ function App() {
   const {from, color} = pickedBall || {}
   const [state, setState] = useState('')
   const [error, setError] = useState('')
+  const [withHistory, setWithHistory] = useState(false)
   const ref = useRef(null)
 
   useEffect(() => {
     setError('')
-    setState(JSON.stringify({columns, pickedBall}))
-  }, [columns, pickedBall])
+    const data = {columns, pickedBall}
+    if (withHistory) {
+      data.history = $history.getState()
+      data.historyPos = $historyPos.getState()
+    }
+    setState(JSON.stringify(data))
+  }, [columns, pickedBall, withHistory])
 
   const copy = () => {
     ref.current.select()
@@ -56,6 +63,8 @@ function App() {
     }
     paste(data)
   }
+
+  const handleCheck = e => setWithHistory(e.target.checked)
 
   return (
     <div className="App">
@@ -86,10 +95,18 @@ function App() {
                 value={state}
                 onChange={e => setState(e.target.value)}
       />
-      <div className="error">{error}</div>
+      {error && <div className="error">{error}</div>}
       <div className="actions" style={{alignSelf: 'flex-end'}}>
-        <button className="btn" onClick={copy}>Copy to clipboard</button>
-        <button className="btn" onClick={apply}>Apply</button>
+
+      </div>
+      <div className="actions">
+        <label>
+          <input type="checkbox" value={withHistory} onChange={handleCheck}/> Includes history
+        </label>
+        <div>
+          <button className="btn" onClick={copy}>Copy to clipboard</button>
+          <button className="btn" onClick={apply}>Apply</button>
+        </div>
       </div>
     </div>
   )

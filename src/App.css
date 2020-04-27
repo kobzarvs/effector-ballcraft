@@ -1,11 +1,17 @@
+:root {
+  --width: 300px;
+  --ball-size: 26px;
+  --ball-gap: 1px;
+}
+
 .App {
   text-align: center;
   display: flex;
   flex-flow: column;
   align-items: center;
   height: 100vh;
-  padding-top: 50px;
-  width: 340px;
+  padding: 10px 0 20vh 0;
+  width: var(--width);
   margin: auto;
 }
 
@@ -21,40 +27,42 @@
   flex-flow: column nowrap;
   justify-content: flex-end;
   align-items: flex-start;
-  height: calc(30px * 4 + 40px);
+  height: calc((var(--ball-size) + var(--ball-gap) + 2px) * 4 + var(--ball-size));
 }
 
 .ball {
-  width: 30px;
-  height: 30px;
   border-radius: 100%;
   border: 1px solid white;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1px;
+  margin: var(--ball-gap);
   cursor: pointer;
-  flex: 0 0 30px;
+  flex: 0 0 var(--ball-size);
+  height: var(--ball-size);
+  width: var(--ball-size);
 }
 
 .game-field {
   display: grid;
-  grid-template-columns: repeat(7, 40px);
-  grid-gap: 10px;
-  padding: 20px;
-  width: 340px;
+  grid-template-columns: repeat(7, calc(var(--ball-size) + 10px));
+  grid-gap: 6px;
+  padding: 10px;
+  width: var(--width);
+  margin: 0 0 20px 0;
 }
 
 .actions {
   display: flex;
   justify-content: space-between;
-  width: 340px;
-  margin: 5px 0;
+  width: 100%;
+  flex: 0 0 36px;
 }
 
 .btn {
+  height: 36px;
   padding: 5px 10px;
-  font-size: 14px;
+  font-size: 16px;
   margin-left: 5px;
   background-color: transparent;
   color: #cccccc;
@@ -65,18 +73,28 @@
   margin-left: 0;
 }
 
-label {
-  color: #ccc;
-}
-
-#state {
+textarea {
   font-size: 16px;
   width: 100%;
   flex: 0 0 80px;
-  margin: 5px 0 0 0;
 }
 
 .error {
   color: red;
   margin: 2px 0 2px 0;
+}
+
+.label {
+  align-self: flex-start;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.label > input[type=checkbox] {
+  margin: 6px;
+  width: 18px;
+  height: 18px;
 }

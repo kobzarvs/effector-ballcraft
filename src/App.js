@@ -87,26 +87,24 @@ function App() {
           </div>
         ))}
       </div>
-      <label htmlFor="state" style={{alignSelf: 'flex-start'}}>
-        State
-      </label>
+      <div style={{width: '100%'}}>
+        <label className="label">
+          <input type="checkbox"
+                 value={withHistory}
+                 onChange={handleCheck}
+          />
+          State includes history
+        </label>
+      </div>
       <textarea id="state"
                 ref={ref}
                 value={state}
                 onChange={e => setState(e.target.value)}
       />
       {error && <div className="error">{error}</div>}
-      <div className="actions" style={{alignSelf: 'flex-end'}}>
-
-      </div>
-      <div className="actions">
-        <label>
-          <input type="checkbox" value={withHistory} onChange={handleCheck}/> Includes history
-        </label>
-        <div>
-          <button className="btn" onClick={copy}>Copy to clipboard</button>
-          <button className="btn" onClick={apply}>Apply</button>
-        </div>
+      <div className="actions" style={{marginTop: 5}}>
+        <button className="btn" onClick={copy}>Copy to clipboard</button>
+        <button className="btn" onClick={apply}>Apply</button>
       </div>
     </div>
   )

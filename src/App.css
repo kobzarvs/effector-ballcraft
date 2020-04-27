@@ -10,7 +10,7 @@
     flex-flow: column;
     align-items: center;
     height: 100vh;
-    padding: 10px 0 120vh 0;
+    padding: 10px 0 420px 0;
     width: var(--width);
     margin: auto;
 }

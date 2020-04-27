@@ -1,12 +1,12 @@
 import {combine, createStore, guard, merge, sample} from 'effector'
 import {$columns, $pickedBall} from './state'
-import {newGame, redo, undo} from './index'
+import {newGame, paste, redo, undo} from './index'
 import {updateCol} from './helpers'
 import {put} from './init'
 
 
-export const $historyPos = createStore(-1).reset(newGame)
-export const $history = createStore([]).reset(newGame)
+export const $historyPos = createStore(-1).reset(merge([newGame, paste]))
+export const $history = createStore([]).reset(merge([newGame, paste]))
 export const $currentHistory = combine(
   [$history, $historyPos],
   ([h, p]) => h[p] || null,

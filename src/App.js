@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import './App.css'
 import {$columns, $pickedBall} from './models/game/state'
 import {useStore} from 'effector-react'
-import {newGame, redo, selectColumn, undo} from './models/game'
+import {newGame, paste, redo, selectColumn, undo} from './models/game'
 
 
 const palette = [
@@ -34,10 +34,28 @@ function App() {
   const pickedBall = useStore($pickedBall)
   const {from, color} = pickedBall || {}
   const [state, setState] = useState('')
+  const [error, setError] = useState('')
+  const ref = useRef(null)
 
   useEffect(() => {
+    setError('')
     setState(JSON.stringify({columns, pickedBall}))
   }, [columns, pickedBall])
+
+  const copy = () => {
+    ref.current.select()
+    document.execCommand('copy')
+  }
+
+  const apply = () => {
+    let data = {}
+    try {
+      data = JSON.parse(ref.current.value)
+    } catch (e) {
+      setError(e.message)
+    }
+    paste(data)
+  }
 
   return (
     <div className="App">
@@ -64,12 +82,14 @@ function App() {
         State
       </label>
       <textarea id="state"
+                ref={ref}
                 value={state}
                 onChange={e => setState(e.target.value)}
       />
+      <div className="error">{error}</div>
       <div className="actions" style={{alignSelf: 'flex-end'}}>
-        <button className="btn">Copy to clipboard</button>
-        <button className="btn">Apply</button>
+        <button className="btn" onClick={copy}>Copy to clipboard</button>
+        <button className="btn" onClick={apply}>Apply</button>
       </div>
     </div>
   )

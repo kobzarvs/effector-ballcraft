@@ -1,6 +1,6 @@
 import {merge, sample, split} from 'effector'
 import {$columns, $gameConfig, $id, $noPicked, $pickedBall, $selectedColumn} from './state'
-import {newGame, selectColumn} from './index'
+import {newGame, paste, selectColumn} from './index'
 import {updateCol} from './helpers'
 
 
@@ -46,6 +46,7 @@ $columns
       col.push(color)
     }),
   )
+  .on(paste, (_, data) => data.columns)
 
 sample({
   source: [$columns, $pickedBall],
@@ -65,6 +66,7 @@ $pickedBall
     from: selected,
     color: columns[selected][columns[selected].length - 1],
   }))
+  .on(paste, (_, data) => data.pickedBall)
 
 // save selected column
 sample({

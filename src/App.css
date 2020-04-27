@@ -1,18 +1,3 @@
-:root {
-  --ball-color-0: red;
-  --ball-color-1: darkgreen;
-  --ball-color-2: blue;
-  --ball-color-3: orange;
-  --ball-color-4: cyan;
-  --ball-color-5: pink;
-  --ball-color-6: lime;
-  --ball-color-7: lightblue;
-  --ball-color-8: brown;
-  --ball-color-9: yellow;
-  --ball-color-10: gray;
-  --ball-color-11: purple;
-}
-
 .App {
   text-align: center;
   display: flex;
@@ -22,41 +7,6 @@
   padding-top: 50px;
   width: 340px;
   margin: auto;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .column {
@@ -123,4 +73,9 @@ label {
   width: 100%;
   flex: 0 0 80px;
   margin: 5px 0;
+}
+
+.error {
+  color: red;
+  margin: 2px 0 10px 0;
 }

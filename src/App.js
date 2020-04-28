@@ -81,7 +81,8 @@ function App() {
     try {
       await navigator.share({
         title: 'Ballcraft sort puzzle',
-        url: `${window.location.origin}/${pathname}`
+        url: `${window.location.origin}/${pathname}`,
+        text: 'Try to resolve my puzzle'
       })
     } catch(e) {
       copy()

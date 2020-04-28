@@ -6,7 +6,7 @@ export function updateCol(columns, id, cb) {
 }
 
 export const shortenUrl = async (longUrl) => {
-  const res = await fetch('/api/url')
+  const res = await fetch(`/api/url?url=${longUrl}`)
   if (res.ok) {
     return await res.json().data
   }

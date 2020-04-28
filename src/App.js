@@ -80,21 +80,17 @@ function App() {
     // url.searchParams.append('state', state)
     const pathname = btoa(state)
     try {
-      // const url = await shortenUrl(`${window.location.origin}/${pathname}`)
-      shortenUrl(`${window.location.origin}/${pathname}`)
-        .then(async url => {
-          console.log('shorten url', url)
-          alert(url)
-          await navigator.share({
-            title: 'Ballcraft sort puzzle',
-            text: 'Try to resolve my puzzle',
-            url,
-          })
-        })
-    } catch (e) {
-      console.log(e)
+      const url = await shortenUrl(`${window.location.origin}/${pathname}`)
+      navigator.share({
+        title: 'Ballcraft sort puzzle',
+        text: 'Try to resolve my puzzle',
+        url,
+      }).then(() => alert('sharing success'))
+        .catch(error => alert(error))
+    } catch (error) {
+      console.log(error)
       copy()
-      alert(e, 'The state has been copied to clipboard')
+      alert(error, 'The state has been copied to clipboard')
     }
     window.history.replaceState(state, null, pathname)
   }

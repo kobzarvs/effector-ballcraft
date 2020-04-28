@@ -110,6 +110,13 @@ function App() {
           </div>
         ))}
       </div>
+
+      <a href="https://github.com/kobzarvs/effector-craftball"
+         target="_blank"
+         rel="noopener noreferrer"
+      >
+        GitHub source code
+      </a>
     </div>
   )
 }

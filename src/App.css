@@ -115,3 +115,7 @@ textarea {
 .moves > div > span {
     color: #ccc;
 }
+
+a {
+    color: dodgerblue;
+}

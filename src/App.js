@@ -77,7 +77,6 @@ function App() {
   const share = async () => {
     const url = new URL(window.location.origin)
     url.searchParams.append('state', state)
-    window.history.replaceState(state, null, url)
     try {
       await navigator.share({
         title: 'Ballcraft sort puzzle',
@@ -88,6 +87,7 @@ function App() {
       copy()
       alert('The state has been copied to clipboard')
     }
+    window.history.replaceState(state, null, url)
   }
 
   return (

@@ -80,14 +80,17 @@ function App() {
     // url.searchParams.append('state', state)
     const pathname = btoa(state)
     try {
-      const url = await shortenUrl(`${window.location.origin}/${pathname}`)
-      console.log('shorten url', url)
-      alert(url)
-      await navigator.share({
-        title: 'Ballcraft sort puzzle',
-        text: 'Try to resolve my puzzle',
-        url,
-      })
+      // const url = await shortenUrl(`${window.location.origin}/${pathname}`)
+      shortenUrl(`${window.location.origin}/${pathname}`)
+        .then(async url => {
+          console.log('shorten url', url)
+          alert(url)
+          await navigator.share({
+            title: 'Ballcraft sort puzzle',
+            text: 'Try to resolve my puzzle',
+            url,
+          })
+        })
     } catch (e) {
       console.log(e)
       copy()

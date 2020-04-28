@@ -5,7 +5,7 @@ const cheerio = require('cheerio')
 
 
 function shortenUrl(longUrl, cb) {
-  const url = `https://tinyurl.com/create.php?source=create&url=${longUrl}`
+  const url = `https://tinyurl.com/create.php?source=create&url=${longUrl}&alias=`
   axios.get(url)
     .then((res) => {
       const $ = cheerio.load(res.data)

@@ -9,8 +9,8 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    height: 100vh;
-    padding: 10px 0 420px 0;
+    height: calc(100vh - 20px);
+    padding: 10px 0;
     width: var(--width);
     margin: auto;
 }
@@ -100,4 +100,18 @@ textarea {
     margin: 6px;
     width: 18px;
     height: 18px;
+}
+
+.moves {
+    user-select: none;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: -15px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.moves > div > span {
+    color: #ccc;
 }

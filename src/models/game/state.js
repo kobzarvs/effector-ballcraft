@@ -1,4 +1,5 @@
 import {combine, createStore} from 'effector'
+import {newGame} from './index'
 
 
 export const COLS = 14

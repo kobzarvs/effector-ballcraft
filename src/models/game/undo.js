@@ -68,7 +68,10 @@ sample({
   target: $columns,
 })
 
-$history.on(paste, (_, data) => data.history)
+$history.on(paste, (_, data) => {
+  console.log('paste history', data.history)
+  return data.history
+})
 
 
 // history cursor

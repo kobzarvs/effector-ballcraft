@@ -1,5 +1,5 @@
 import {merge, sample, split} from 'effector'
-import {$columns, $gameConfig, $id, $noPicked, $pickedBall, $selectedColumn} from './state'
+import {$columns, $gameConfig, $id, $moves, $noPicked, $pickedBall, $selectedColumn} from './state'
 import {newGame, paste, selectColumn} from './index'
 import {updateCol} from './helpers'
 
@@ -85,13 +85,3 @@ sample({
 newGame.watch(() => {
   window.history.replaceState({}, null, '/')
 })
-
-const url = new URL(window.location)
-const state = url.pathname.slice(1)
-if (state) {
-  try {
-    paste(JSON.parse(atob(state)))
-  } catch(e) {
-    alert(e.message)
-  }
-}

@@ -39,6 +39,8 @@ const ignore = e => {
   touch = true
 }
 
+let _url = ''
+
 function App() {
   const columns = useStore($columns)
   const pickedBall = useStore($pickedBall)
@@ -47,6 +49,7 @@ function App() {
   const [error, setError] = useState('')
   const [withHistory, setWithHistory] = useState(true)
   const ref = useRef(null)
+  const shref = useRef(null)
 
   useEffect(() => {
     setError('')
@@ -75,18 +78,22 @@ function App() {
 
   const handleCheck = e => setWithHistory(e.target.checked)
 
+  const share2 = () => {
+    navigator.share && navigator.share({
+      title: 'Ballcraft sort puzzle',
+      text: 'Try to resolve my puzzle',
+      url: _url,
+    }).then(() => alert('sharing success'))
+      .catch(error => alert(error))
+  }
+
   const share = async (e) => {
     // const url = new URL(window.location.origin)
     // url.searchParams.append('state', state)
     const pathname = btoa(state)
     try {
-      const url = await shortenUrl(`${window.location.origin}/${pathname}`)
-      navigator.share({
-        title: 'Ballcraft sort puzzle',
-        text: 'Try to resolve my puzzle',
-        url,
-      }).then(() => alert('sharing success'))
-        .catch(error => alert(error))
+      _url = await shortenUrl(`${window.location.origin}/${pathname}`)
+      shref.current.click()
     } catch (error) {
       console.log(error)
       copy()
@@ -97,6 +104,7 @@ function App() {
 
   return (
     <div id="top" className="App" onTouchStart={ignore}>
+      {navigator.share && <button ref={shref} className="btn" onClick={share2}>Share</button>}
       <div className="actions" style={{justifyContent: 'space-between'}}>
         <button className="btn" onClick={newGame}>New</button>
         {navigator.share && <button className="btn" onClick={share}>Share</button>}

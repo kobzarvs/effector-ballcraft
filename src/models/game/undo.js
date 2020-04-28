@@ -1,6 +1,6 @@
-import {combine, createStore, guard, merge, sample} from 'effector'
+import {combine, createEvent, createStore, guard, merge, sample, split} from 'effector'
 import {$columns, $pickedBall} from './state'
-import {newGame, paste, redo, undo} from './index'
+import {newGame, paste} from './index'
 import {updateCol} from './helpers'
 import {put} from './init'
 
@@ -17,27 +17,49 @@ export const $canRedo = combine(
   ([h, p, t]) => p < h.length - 1,
 )
 
+export const _undo = createEvent()
+export const _redo = createEvent()
+
+export const undo = _undo.prepend(() => 'undo')
+export const redo = _redo.prepend(() => 'redo')
+// undo.watch(v => console.log('undo', v))
+// _undo.watch(v => console.log('_undo', v))
+
 export const safeUndo = sample({
-  source: $currentHistory,
-  clock: guard(undo, {filter: $currentHistory}),
+  source: [$currentHistory, $pickedBall],
+  clock: guard(_undo, {filter: $currentHistory}),
+  fn: ([currentHistory, pickedBall], type) => ({
+    historyItem: currentHistory,
+    type,
+    pickedBall,
+  }),
 })
+// safeUndo.watch(v => console.log('safeUndo', v))
 
 export const safeRedo = sample({
-  source: [$history, $historyPos],
-  clock: guard(redo, {filter: $canRedo}),
-  fn: ([history, pos]) => {
-    return history[pos + 1]
-  },
+  source: [$history, $historyPos, $pickedBall],
+  clock: guard(_redo, {filter: $canRedo}),
+  fn: ([history, pos, pickedBall], type) => ({
+    historyItem: history[pos + 1],
+    type,
+    pickedBall,
+  }),
 })
 
-export const undoUnpick = sample({
-  source: $pickedBall,
-  clock: guard(merge([safeUndo, safeRedo]), {filter: $pickedBall}),
-  fn: pickedBall => pickedBall,
+const {execUndo, execRedo, undoUnpick} = split(merge([safeUndo, safeRedo]), {
+  undoUnpick: ({pickedBall}) => {
+    console.log('split unpick', pickedBall)
+    return !!pickedBall
+  },
+  execUndo: ({type}) => type === 'undo',
+  execRedo: ({type}) => type === 'redo',
 })
+// undoUnpick.watch(v => console.log('undoUnpick', v))
+// execUndo.watch(v => console.log('execUndo', v))
+// execRedo.watch(v => console.log('execRedo', v))
 
 $columns
-  .on(safeUndo, (cols, {from, to, color}) => {
+  .on(execUndo, (cols, {historyItem: {from, to, color}}) => {
     cols = updateCol(cols, to, col => {
       col.pop()
     })
@@ -46,7 +68,7 @@ $columns
     })
     return cols
   })
-  .on(safeRedo, (cols, {from, to, color}) => {
+  .on(execRedo, (cols, {historyItem: {from, to, color}}) => {
     cols = updateCol(cols, from, col => {
       col.pop()
     })
@@ -68,17 +90,14 @@ sample({
   target: $columns,
 })
 
-$history.on(paste, (_, data) => {
-  console.log('paste history', data.history)
-  return data.history
-})
+$history.on(paste, (_, data) => data.history)
 
 
 // history cursor
 $historyPos
   .on(put, (pos) => pos + 1)
-  .on(safeUndo, (pos) => pos - 1)
-  .on(safeRedo, (pos) => pos + 1)
+  .on(execUndo, (pos) => pos - 1)
+  .on(execRedo, (pos) => pos + 1)
   .on(paste, (_, data) => data.historyPos || -1)
 
 // append history record

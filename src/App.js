@@ -75,13 +75,14 @@ function App() {
 
   const handleCheck = e => setWithHistory(e.target.checked)
 
-  const share = async () => {
+  const share = async (e) => {
     // const url = new URL(window.location.origin)
     // url.searchParams.append('state', state)
     const pathname = btoa(state)
     try {
       const url = await shortenUrl(`${window.location.origin}/${pathname}`)
       console.log('shorten url', url)
+      alert(url)
       await navigator.share({
         title: 'Ballcraft sort puzzle',
         text: 'Try to resolve my puzzle',
@@ -99,7 +100,7 @@ function App() {
     <div id="top" className="App" onTouchStart={ignore}>
       <div className="actions" style={{justifyContent: 'space-between'}}>
         <button className="btn" onClick={newGame}>New</button>
-        {('share' in navigator) && <button className="btn" onClick={share}>Share</button>}
+        {navigator.share && <button className="btn" onClick={share}>Share</button>}
         <div>
           <button className="btn" onClick={undo} onTouchStart={ignore}>Undo</button>
           <button className="btn" onClick={redo} onTouchStart={ignore}>Redo</button>

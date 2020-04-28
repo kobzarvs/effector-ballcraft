@@ -9,7 +9,7 @@ export const shortenUrl = async (longUrl) => {
   const res = await fetch(`/api/url?url=${longUrl}`)
   if (res.ok) {
     const result = await res.json()
-    return result.data
+    return result.data.replace('preview.', '')
   }
   return null
 }

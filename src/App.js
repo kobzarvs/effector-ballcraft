@@ -56,6 +56,7 @@ function App() {
     console.log(ta.value)
     document.execCommand('copy')
     document.body.removeChild(ta)
+    alert('URL copied to clipboard')
   }
 
   const share = () => {
@@ -63,8 +64,7 @@ function App() {
       title: 'Ballcraft sort puzzle',
       text: 'Try to resolve my puzzle',
       url: window.location.href,
-    }).then(() => alert('sharing success'))
-      .catch(error => alert(error))
+    }).catch(error => alert(error))
   }
 
   return (

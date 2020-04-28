@@ -4,6 +4,7 @@ import {$columns, $pickedBall} from './models/game/state'
 import {useStore} from 'effector-react'
 import {newGame, paste, redo, selectColumn, undo} from './models/game'
 import {$history, $historyPos} from './models/game/undo'
+import {shortenUrl} from './models/game/helpers'
 
 
 const palette = [
@@ -79,12 +80,15 @@ function App() {
     // url.searchParams.append('state', state)
     const pathname = btoa(state)
     try {
-      await navigator.share({
-        title: 'Ballcraft sort puzzle',
-        url: `${window.location.origin}/${pathname}`,
-        text: 'Try to resolve my puzzle'
-      })
-    } catch(e) {
+      if ('share' in navigator) {
+        const url = await shortenUrl(`${window.location.origin}/${pathname}`)
+        await navigator.share({
+          title: 'Ballcraft sort puzzle',
+          text: 'Try to resolve my puzzle',
+          url,
+        })
+      }
+    } catch (e) {
       copy()
       alert('The state has been copied to clipboard')
     }
@@ -95,7 +99,7 @@ function App() {
     <div id="top" className="App" onTouchStart={ignore}>
       <div className="actions" style={{justifyContent: 'space-between'}}>
         <button className="btn" onClick={newGame}>New</button>
-        <button className="btn" onClick={share}>Share</button>
+        {('share' in navigator) && <button className="btn" onClick={share}>Share</button>}
         <div>
           <button className="btn" onClick={undo} onTouchStart={ignore}>Undo</button>
           <button className="btn" onClick={redo} onTouchStart={ignore}>Redo</button>

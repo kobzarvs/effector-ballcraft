@@ -4,3 +4,11 @@ export function updateCol(columns, id, cb) {
   cb(columns[id])
   return columns
 }
+
+export const shortenUrl = async (longUrl) => {
+  const res = await fetch('/api/url')
+  if (res.ok) {
+    return await res.json().data
+  }
+  return null
+}

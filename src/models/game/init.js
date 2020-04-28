@@ -87,10 +87,10 @@ newGame.watch(() => {
 })
 
 const url = new URL(window.location)
-const state = url.searchParams.get('state')
+const state = url.pathname.slice(1)
 if (state) {
   try {
-    paste(JSON.parse(state))
+    paste(JSON.parse(atob(state)))
   } catch(e) {
     alert(e.message)
   }

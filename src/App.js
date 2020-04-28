@@ -75,18 +75,19 @@ function App() {
   const handleCheck = e => setWithHistory(e.target.checked)
 
   const share = async () => {
-    const url = new URL(window.location.origin)
-    url.searchParams.append('state', state)
+    // const url = new URL(window.location.origin)
+    // url.searchParams.append('state', state)
+    const pathname = btoa(state)
     try {
       await navigator.share({
         title: 'Ballcraft sort puzzle',
-        url: url.href
+        url: `${window.location.origin}/${pathname}`
       })
     } catch(e) {
       copy()
       alert('The state has been copied to clipboard')
     }
-    window.history.replaceState(state, null, url)
+    window.history.replaceState(state, null, pathname)
   }
 
   return (

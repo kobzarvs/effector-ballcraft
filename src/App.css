@@ -46,10 +46,10 @@
 .game-field {
     display: grid;
     grid-template-columns: repeat(7, calc(var(--ball-size) + 10px));
-    grid-gap: 6px;
-    padding: 10px;
+    grid-gap: 8px;
+    padding: 10px 0px;
     width: var(--width);
-    margin: 0 0 20px 0;
+    margin: 0;
     user-select: none;
 }
 

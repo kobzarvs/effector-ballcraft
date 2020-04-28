@@ -80,14 +80,12 @@ function App() {
     // url.searchParams.append('state', state)
     const pathname = btoa(state)
     try {
-      if ('share' in navigator) {
-        const url = await shortenUrl(`${window.location.origin}/${pathname}`)
-        await navigator.share({
-          title: 'Ballcraft sort puzzle',
-          text: 'Try to resolve my puzzle',
-          url,
-        })
-      }
+      const url = await shortenUrl(`${window.location.origin}/${pathname}`)
+      await navigator.share({
+        title: 'Ballcraft sort puzzle',
+        text: 'Try to resolve my puzzle',
+        url,
+      })
     } catch (e) {
       copy()
       alert('The state has been copied to clipboard')

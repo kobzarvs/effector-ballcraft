@@ -80,7 +80,7 @@ function App() {
     // url.searchParams.append('state', state)
     const pathname = btoa(state)
     try {
-      const url = await shortenUrl(`${window.location.origin}/${pathname}`)
+      const url = await shortenUrl(`${window.location.origin}/api/url?${pathname}`)
       await navigator.share({
         title: 'Ballcraft sort puzzle',
         text: 'Try to resolve my puzzle',

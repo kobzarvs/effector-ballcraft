@@ -81,3 +81,17 @@ sample({
   fn: (cols, selected) => cols[selected],
   target: $selectedColumn,
 })
+
+newGame.watch(() => {
+  window.history.replaceState({}, null, '/')
+})
+
+const url = new URL(window.location)
+const state = url.searchParams.get('state')
+if (state) {
+  try {
+    paste(JSON.parse(state))
+  } catch(e) {
+    alert(e.message)
+  }
+}

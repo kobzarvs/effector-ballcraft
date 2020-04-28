@@ -91,7 +91,7 @@ function App() {
     } catch (e) {
       console.log(e)
       copy()
-      alert('The state has been copied to clipboard')
+      alert(e, 'The state has been copied to clipboard')
     }
     window.history.replaceState(state, null, pathname)
   }

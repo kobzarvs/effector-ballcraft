@@ -1,5 +1,5 @@
 import {merge, sample, split} from 'effector'
-import {$columns, $gameConfig, $id, $moves, $noPicked, $pickedBall, $selectedColumn} from './state'
+import {$columns, $gameConfig, $id, $noPicked, $pickedBall, $selectedColumn} from './state'
 import {newGame, paste, selectColumn} from './index'
 import {updateCol} from './helpers'
 

@@ -1,10 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React from 'react'
 import './App.css'
 import {$columns, $pickedBall} from './models/game/state'
 import {useStore} from 'effector-react'
-import {newGame, paste, redo, selectColumn, undo} from './models/game'
-import {$history, $historyPos} from './models/game/undo'
-import {shortenUrl} from './models/game/helpers'
+import {newGame, redo, selectColumn, undo} from './models/game'
+import {$historyPos} from './models/game/undo'
 import {$moves} from './models/game/moves'
 
 
@@ -39,8 +38,6 @@ const ignore = e => {
   e.stopPropagation()
   touch = true
 }
-
-let _url = ''
 
 function App() {
   const moves = useStore($moves)

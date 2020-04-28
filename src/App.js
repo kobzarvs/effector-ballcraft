@@ -117,6 +117,9 @@ function App() {
       >
         GitHub source code
       </a>
+      <a href="https://t.me/ValeryKobzar">
+        Created by Valery Kobzar
+      </a>
     </div>
   )
 }

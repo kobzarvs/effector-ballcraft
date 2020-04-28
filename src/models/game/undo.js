@@ -4,6 +4,8 @@ import {newGame, paste} from './index'
 import {updateCol} from './helpers'
 import {put} from './init'
 
+const UNDO = Symbol()
+const REDO = Symbol()
 
 export const $historyPos = createStore(-1).reset(newGame)
 export const $history = createStore([]).reset(newGame)
@@ -17,36 +19,33 @@ export const $canRedo = combine(
   ([h, p, t]) => p < h.length - 1,
 )
 
-const _undo = createEvent()
-const _redo = createEvent()
-
-export const undo = _undo.prepend(() => 'undo')
-export const redo = _redo.prepend(() => 'redo')
+export const undo = createEvent()
+export const redo = createEvent()
 
 export const safeUndo = sample({
   source: [$currentHistory, $pickedBall],
-  clock: guard(_undo, {filter: $currentHistory}),
-  fn: ([currentHistory, pickedBall], type) => ({
+  clock: guard(undo, {filter: $currentHistory}),
+  fn: ([currentHistory, pickedBall]) => ({
     historyItem: currentHistory,
-    type,
+    type: UNDO,
     pickedBall,
   }),
 })
 
 export const safeRedo = sample({
   source: [$history, $historyPos, $pickedBall],
-  clock: guard(_redo, {filter: $canRedo}),
-  fn: ([history, pos, pickedBall], type) => ({
+  clock: guard(redo, {filter: $canRedo}),
+  fn: ([history, pos, pickedBall]) => ({
     historyItem: history[pos + 1],
-    type,
+    type: REDO,
     pickedBall,
   }),
 })
 
 const {execUndo, execRedo, undoUnpick} = split(merge([safeUndo, safeRedo]), {
   undoUnpick: ({pickedBall}) => !!pickedBall,
-  execUndo: ({type}) => type === 'undo',
-  execRedo: ({type}) => type === 'redo',
+  execUndo: ({type}) => type === UNDO,
+  execRedo: ({type}) => type === REDO,
 })
 
 $columns

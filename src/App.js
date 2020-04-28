@@ -81,7 +81,7 @@ function App() {
       await navigator.share({
         title: 'Ballcraft sort puzzle',
         text: 'Try to solve my puzzle',
-        url: url.href
+        url: url.origin
       })
     } catch(e) {
       copy()

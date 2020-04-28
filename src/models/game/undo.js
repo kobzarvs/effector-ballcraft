@@ -17,13 +17,11 @@ export const $canRedo = combine(
   ([h, p, t]) => p < h.length - 1,
 )
 
-export const _undo = createEvent()
-export const _redo = createEvent()
+const _undo = createEvent()
+const _redo = createEvent()
 
 export const undo = _undo.prepend(() => 'undo')
 export const redo = _redo.prepend(() => 'redo')
-// undo.watch(v => console.log('undo', v))
-// _undo.watch(v => console.log('_undo', v))
 
 export const safeUndo = sample({
   source: [$currentHistory, $pickedBall],
@@ -34,7 +32,6 @@ export const safeUndo = sample({
     pickedBall,
   }),
 })
-// safeUndo.watch(v => console.log('safeUndo', v))
 
 export const safeRedo = sample({
   source: [$history, $historyPos, $pickedBall],
@@ -47,16 +44,10 @@ export const safeRedo = sample({
 })
 
 const {execUndo, execRedo, undoUnpick} = split(merge([safeUndo, safeRedo]), {
-  undoUnpick: ({pickedBall}) => {
-    console.log('split unpick', pickedBall)
-    return !!pickedBall
-  },
+  undoUnpick: ({pickedBall}) => !!pickedBall,
   execUndo: ({type}) => type === 'undo',
   execRedo: ({type}) => type === 'redo',
 })
-// undoUnpick.watch(v => console.log('undoUnpick', v))
-// execUndo.watch(v => console.log('execUndo', v))
-// execRedo.watch(v => console.log('execRedo', v))
 
 $columns
   .on(execUndo, (cols, {historyItem: {from, to, color}}) => {

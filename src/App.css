@@ -121,8 +121,8 @@ a {
 }
 
 .column.valid {
-    box-shadow: 0 0 4px lightgreen;
-    border: 1px solid lightgreen;
+    /*box-shadow: 0 0 4px lightgreen;*/
+    /*border: 1px solid lightgreen;*/
 }
 
 .gameover {

@@ -1,10 +1,15 @@
-import React from 'react'
+import React, {useEffect, useRef, useState} from 'react'
+import cn from 'classnames'
 import './App.css'
-import {$columns, $mixed, $pickedBall} from './models/game/state'
+import {$columns, $gameConfig, $pickedBall} from './models/game/state'
 import {useStore} from 'effector-react'
 import {newGame, selectColumn} from './models/game'
 import {$historyPos, undo, redo} from './models/game/undo'
 import {$moves} from './models/game/moves'
+import {$validTargets} from './models/game/validTargets'
+import {$gameOver} from './models/game/gameOver'
+import {GameOver} from './GameOver'
+import {move} from 'ramda'
 
 
 const palette = [
@@ -43,11 +48,21 @@ const ignore = e => {
 }
 
 function App() {
+  const gameOver = useStore($gameOver)
   const moves = useStore($moves)
   const columns = useStore($columns)
-  // const mixed = useStore($mixed)
+  const validTargets = useStore($validTargets)
   const pickedBall = useStore($pickedBall)
+  const [showGameOver, setShowGameOver] = useState(false)
   const {from, color} = pickedBall || {}
+
+  useEffect(() => {
+    if (gameOver) {
+      setShowGameOver(true)
+    } else {
+      setShowGameOver(false)
+    }
+  }, [gameOver, moves])
 
   const copy = () => {
     const ta = document.createElement('textarea')
@@ -103,7 +118,7 @@ function App() {
                }}
           >
             <Ball colorIndex={from === cid ? color : -1} />
-            <div className="column">
+            <div className={cn('column', {valid: validTargets.includes(column)})}>
               {column.map((_, bid) => {
                 // console.log(bid, _, column.length, mixed[cid].length)
                 return (
@@ -118,6 +133,11 @@ function App() {
             </div>
           </div>
         ))}
+
+        <GameOver show={showGameOver}
+                  moves={moves}
+                  onClick={() => setShowGameOver(false)}
+        />
       </div>
 
       <div className='actions' style={{marginTop: 10}}>
@@ -135,9 +155,9 @@ function App() {
         </a>
       </div>
       <div className='actions' style={{marginTop: -10}}>
-      <a href="https://t.me/ValeryKobzar">
-        Created by Valery Kobzar
-      </a>
+        <a href="https://t.me/ValeryKobzar">
+          Created by Valery Kobzar
+        </a>
       </div>
     </div>
   )

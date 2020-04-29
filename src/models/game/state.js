@@ -1,5 +1,6 @@
 import {combine, createStore} from 'effector'
 
+
 const RETRY_COUNT = 5
 export const DIFFICULTY = 5000
 export const COLS = 14
@@ -95,7 +96,7 @@ export const $columns = $gameConfig.map(config => {
 
   const resort = (cols) => {
     const newCols = [...cols]
-    for(let c = 0; c < newCols.length; c++) {
+    for (let c = 0; c < newCols.length; c++) {
       const rnd = Math.trunc(Math.random() * newCols.length)
       if (rnd !== c) {
         const tmp = newCols[c]
@@ -153,7 +154,7 @@ export const $columns = $gameConfig.map(config => {
     }
     console.log('shuffle iteration count:', i)
 
-  } while(++retryIndex < RETRY_COUNT && emptyCount !== 2)
+  } while (++retryIndex < RETRY_COUNT && emptyCount !== 2)
 
   // $mixed.setState(mixed)
 
@@ -164,7 +165,4 @@ export const $columns = $gameConfig.map(config => {
 
 export const $pickedBall = createStore(null)
 export const $noPicked = $pickedBall.map(val => !val)
-
 export const $selectedColumn = createStore([])
-
-window.$steps = $steps

@@ -1,6 +1,7 @@
 import {combine, createStore} from 'effector'
 
-export const DIFFICULTY = 1000
+const RETRY_COUNT = 5
+export const DIFFICULTY = 5000
 export const COLS = 14
 export const EMPTY_COLS = 2
 export const LEVELS = 4
@@ -49,9 +50,6 @@ export const $mixed = createStore([])
 export const $columns = $gameConfig.map(config => {
   const {cols, levels, emptyCols, steps} = config
   const colorsCount = cols - emptyCols
-  const colors = getColors(colorsCount, levels)
-
-  let columns = initColumns(cols, emptyCols, levels, colors)
 
   const isFull = (arr) => arr.length === levels
   const isEmpty = (arr) => arr.length === 0
@@ -92,7 +90,6 @@ export const $columns = $gameConfig.map(config => {
     to.push(src)
   }
 
-  let mixed = columns
   let i = 0
   let lastTarget = null
 
@@ -111,46 +108,56 @@ export const $columns = $gameConfig.map(config => {
 
   const getSum = (col) => col.reduce((acc, item) => acc + item.step, 0)
 
+  let retryIndex = 0
   let noSource = false
-  while (i < steps) {
-    for (let dest of resort(columns)) {
-      if (isFull(dest)) continue
+  let emptyCount = 0
+  let columns
 
-      const rest = getWithout(columns, dest).filter(isNotEmpty)
-      const rndCols = resort(rest)
-      let bySteps = rndCols.sort((a, b) => getSum(a) - getSum(b))
-      let byCount = rndCols.sort((a, b) => a.length - b.length)
-      let src = i % 5 === 0 ? bySteps : byCount
+  do {
+    const colors = getColors(colorsCount, levels)
+    columns = initColumns(cols, emptyCols, levels, colors)
 
-      if (isEmpty(dest)) {
-        src = src.filter(c => c.length > 0)
-        if (isEmpty(src)) {
+    while (i < steps) {
+      for (let dest of resort(columns)) {
+        if (isFull(dest)) continue
+
+        const rest = getWithout(columns, dest).filter(isNotEmpty)
+        const rndCols = resort(rest)
+        let bySteps = rndCols.sort((a, b) => getSum(a) - getSum(b))
+        let byCount = rndCols.sort((a, b) => a.length - b.length)
+        let src = i % 5 === 0 ? bySteps : byCount
+
+        if (isEmpty(dest)) {
+          src = src.filter(c => c.length > 0)
+          if (isEmpty(src)) {
+            noSource = true
+            continue
+          }
+        }
+
+        src = findSource(src, dest)
+        if (!src) {
           noSource = true
           continue
         }
-      }
 
-      src = findSource(src, dest)
-      if (!src) {
-        noSource = true
-        continue
+        noSource = false
+        move(src, dest, i)
+        lastTarget = dest
+        break
       }
-
-      noSource = false
-      move(src, dest, i)
-      lastTarget = dest
-      break
+      if (noSource) break
+      emptyCount = getCols(columns, isEmpty).length
+      if (i > steps - steps / 10 && emptyCount === 2) break
+      i++
     }
-    if (noSource) break
-    const emptyCount = getCols(columns, isEmpty).length
-    if (i > steps - steps / 10 && emptyCount === 2) break
-    i++
-  }
-  console.log('shuffle iteration count:', i)
+    console.log('shuffle iteration count:', i)
+
+  } while(++retryIndex < RETRY_COUNT && emptyCount !== 2)
 
   // $mixed.setState(mixed)
 
-  return mixed.reduce((acc, col) => {
+  return columns.reduce((acc, col) => {
     return [...acc, col.map(item => item.color)]
   }, []).sort((a, b) => b.length - a.length)
 })

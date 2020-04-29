@@ -28,7 +28,7 @@ const Ball = ({colorIndex, onMouseDown, children, style}) => (
        style={{
          backgroundColor: colorIndex === -1 ? 'transparent' : palette[colorIndex],
          border: colorIndex === -1 ? '1px solid transparent' : '1px solid white',
-         ...style
+         ...style,
        }}
   >
     {children}
@@ -120,15 +120,25 @@ function App() {
         ))}
       </div>
 
-      <a href="https://github.com/kobzarvs/effector-craftball"
-         target="_blank"
-         rel="noopener noreferrer"
-      >
-        GitHub source code
-      </a>
+      <div className='actions' style={{marginTop: 10}}>
+        <a href="https://github.com/kobzarvs/effector-craftball"
+           target="_blank"
+           rel="noopener noreferrer"
+        >
+          GitHub source code
+        </a>
+        <a href="https://github.com/zerobias/effector"
+           target="_blank"
+           rel="noopener noreferrer"
+        >
+          Powered by effector
+        </a>
+      </div>
+      <div className='actions' style={{marginTop: -10}}>
       <a href="https://t.me/ValeryKobzar">
         Created by Valery Kobzar
       </a>
+      </div>
     </div>
   )
 }

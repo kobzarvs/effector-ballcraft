@@ -1,8 +1,9 @@
 import {combine, createStore} from 'effector'
+import {lastIndexOf} from 'ramda'
 
 
-const RETRY_COUNT = 5
-export const DIFFICULTY = 5000
+const RETRY_COUNT = 10
+export const DIFFICULTY = 2000
 export const COLS = 14
 export const EMPTY_COLS = 2
 export const LEVELS = 4
@@ -91,7 +92,6 @@ export const $columns = $gameConfig.map(config => {
     to.push(src)
   }
 
-  let i = 0
   let lastTarget = null
 
   const resort = (cols) => {
@@ -113,8 +113,14 @@ export const $columns = $gameConfig.map(config => {
   let noSource = false
   let emptyCount = 0
   let columns
+  const variants = []
+
+  const clone = (cols) => cols.reduce((acc, col) => {
+    return [...acc, col.map(item => item.color)]
+  }, []).sort((a, b) => b.length - a.length)
 
   do {
+    let i = 0
     const colors = getColors(colorsCount, levels)
     columns = initColumns(cols, emptyCols, levels, colors)
 
@@ -124,12 +130,19 @@ export const $columns = $gameConfig.map(config => {
 
         const rest = getWithout(columns, dest).filter(isNotEmpty)
         const rndCols = resort(rest)
-        let bySteps = rndCols.sort((a, b) => getSum(a) - getSum(b))
-        let byCount = rndCols.sort((a, b) => a.length - b.length)
-        let src = i % 5 === 0 ? bySteps : byCount
+        let byMinSteps = [...rndCols].sort((a, b) => last(a).step - last(b).step)
+        let byMaxSteps = [...rndCols].sort((a, b) => last(b).step - last(a).step)
+        let byMinCount = [...rndCols].sort((a, b) => a.length - b.length)
+        let byMaxCount = [...rndCols].sort((a, b) => b.length - a.length)
+        let src
+
+        src = byMaxSteps
+        if (i > 200) src = byMaxCount
+        if (i > 250) src = byMinSteps
 
         if (isEmpty(dest)) {
-          src = src.filter(c => c.length > 0)
+          src = src.filter(c => c.length > 1)
+          // console.log('dest', dest.length, src.length)
           if (isEmpty(src)) {
             noSource = true
             continue
@@ -153,14 +166,13 @@ export const $columns = $gameConfig.map(config => {
       i++
     }
     console.log('shuffle iteration count:', i)
-
-  } while (++retryIndex < RETRY_COUNT && emptyCount !== 2)
+    variants.push({n: i, columns: clone(columns)})
+  }
+  while (++retryIndex < RETRY_COUNT)
 
   // $mixed.setState(mixed)
-
-  return columns.reduce((acc, col) => {
-    return [...acc, col.map(item => item.color)]
-  }, []).sort((a, b) => b.length - a.length)
+  variants.sort((a, b) => b.n - a.n)
+  return variants[0].columns
 })
 
 export const $pickedBall = createStore(null)

@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {$columns, $pickedBall} from './models/game/state'
+import {$columns, $mixed, $pickedBall} from './models/game/state'
 import {useStore} from 'effector-react'
 import {newGame, selectColumn} from './models/game'
 import {$historyPos, undo, redo} from './models/game/undo'
@@ -22,14 +22,17 @@ const palette = [
   'purple',
 ]
 
-const Ball = ({colorIndex, onMouseDown}) => (
+const Ball = ({colorIndex, onMouseDown, children, style}) => (
   <div className="ball"
        onMouseDown={onMouseDown}
        style={{
          backgroundColor: colorIndex === -1 ? 'transparent' : palette[colorIndex],
          border: colorIndex === -1 ? '1px solid transparent' : '1px solid white',
+         ...style
        }}
-  />
+  >
+    {children}
+  </div>
 )
 
 let touch = false
@@ -42,6 +45,7 @@ const ignore = e => {
 function App() {
   const moves = useStore($moves)
   const columns = useStore($columns)
+  // const mixed = useStore($mixed)
   const pickedBall = useStore($pickedBall)
   const {from, color} = pickedBall || {}
 
@@ -84,25 +88,33 @@ function App() {
       </div>
 
       <div className="game-field" onTouchStart={ignore}>
-        {columns.map((column, idx) => (
-          <div key={idx}
+        {columns.map((column, cid) => (
+          <div key={cid}
                onTouchStart={(e) => {
                  e.preventDefault()
                  e.stopPropagation()
                  touch = true
-                 selectColumn(idx)
+                 selectColumn(cid)
                }}
                onMouseDown={(e) => {
                  e.preventDefault()
                  e.stopPropagation()
-                 !touch && selectColumn(idx)
+                 !touch && selectColumn(cid)
                }}
           >
-            <Ball colorIndex={from === idx ? color : -1} />
+            <Ball colorIndex={from === cid ? color : -1} />
             <div className="column">
-              {column.map((_, idx) => (
-                <Ball key={idx} colorIndex={column[column.length - idx - 1]} />
-              ))}
+              {column.map((_, bid) => {
+                // console.log(bid, _, column.length, mixed[cid].length)
+                return (
+                  <Ball key={bid}
+                        colorIndex={column[column.length - bid - 1]}
+                        style={{color: 'black', fontWeight: 'bold'}}
+                  >
+                    {/*{mixed[cid][column.length - bid - 1]?.step}*/}
+                  </Ball>
+                )
+              })}
             </div>
           </div>
         ))}

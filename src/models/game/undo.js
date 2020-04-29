@@ -80,8 +80,8 @@ sample({
   target: $columns,
 })
 
-$history.on(paste, (_, data) => data.history)
-
+$history
+  .on(paste, (_, data) => data.history)
 
 // history cursor
 $historyPos

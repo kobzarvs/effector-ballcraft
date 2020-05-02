@@ -1,6 +1,5 @@
 import {combine, createStore, sample} from 'effector'
 import {newGame} from './index'
-import {onLog} from 'firebase'
 
 
 const RETRY_COUNT = 10

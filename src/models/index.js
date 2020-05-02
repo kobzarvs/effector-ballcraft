@@ -10,7 +10,7 @@ import {$gameConfig} from './game/state'
 
 try {
   const state = window.location.pathname.slice(1)
-  if (!state) throw new Error('no state')
+  if (!state) throw new Error('format')
 
   const {cols, emptyCols, levels} = $gameConfig.getState()
   const maxColor = cols - emptyCols

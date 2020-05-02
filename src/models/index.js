@@ -41,7 +41,6 @@ try {
   colors.forEach(count => {
     if (count !== levels) throw new Error('invalid colors count')
   })
-
   paste({columns})
 } catch (e) {
   if (e.message !== 'format') {

@@ -81,7 +81,3 @@ sample({
   fn: (cols, selected) => cols[selected],
   target: $selectedColumn,
 })
-
-newGame.watch(() => {
-  window.history.replaceState({}, null, '/')
-})

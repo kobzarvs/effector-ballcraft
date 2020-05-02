@@ -9,8 +9,36 @@ import {$moves} from './models/game/moves'
 import {$validTargets} from './models/game/validTargets'
 import {$gameOver} from './models/game/gameOver'
 import {GameOver} from './GameOver'
-import {move} from 'ramda'
+import * as firebase from 'firebase'
+import * as firebaseui from 'firebaseui'
 
+
+// console.log(ui)
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDMXPHm_YS0FnQcjsdXerR1gj1lN0sG6Ww',
+  authDomain: 'ballcraft-a61cb.firebaseapp.com',
+  databaseURL: 'https://ballcraft-a61cb.firebaseio.com',
+  projectId: 'ballcraft-a61cb',
+  storageBucket: 'ballcraft-a61cb.appspot.com',
+  messagingSenderId: '426907411213',
+  appId: '1:426907411213:web:0c60273203bc70d69e8644',
+  measurementId: 'G-SNCMNHXPH0',
+}
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig)
+firebase.analytics()
+
+// const ui = new firebaseui.auth.AuthUI(firebase.auth())
+// ui.start('#firebaseui-auth-container', {
+//   signInOptions: [
+//     firebase.auth.GithubAuthProvider.PROVIDER_ID,
+//     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+//   ],
+// })
+// console.log(firebase, firebaseui)
+// window.firebase = firebase
+// window.firebaseui = firebaseui
 
 const palette = [
   'red',

@@ -11,6 +11,8 @@
     "classnames": "^2.2.6",
     "effector": "^20.14.0",
     "effector-react": "^20.7.1",
+    "firebase": "^7.14.2",
+    "firebaseui": "^4.5.0",
     "immer": "^6.0.3",
     "ramda": "^0.27.0",
     "react": "^16.13.1",

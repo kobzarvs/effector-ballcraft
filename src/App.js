@@ -48,7 +48,7 @@ const palette = [
   'cyan',
   'pink',
   'lime',
-  'lightblue',
+  'black',
   'brown',
   'yellow',
   'gray',
